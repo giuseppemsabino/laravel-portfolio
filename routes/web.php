@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -30,7 +30,8 @@ Route::middleware(['auth', 'verified'])
         Route::get('/profile',[DashboardController::class , 'profile'])->name('profile');
     });
 
-Route::resource('posts', PostController::class);
+Route::resource('projects', AdminProjectController::class)
+    ->middleware(['auth','verified']);
 
 
 
