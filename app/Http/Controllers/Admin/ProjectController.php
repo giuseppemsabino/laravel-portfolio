@@ -33,6 +33,13 @@ class ProjectController extends Controller
        $data = $request->all();
 
     //    dd($data);
+        $newProject = new Project();
+        $newProject->author = $data['author'];
+        $newProject->cliente = $data['cliente'];
+        $newProject->conclutions = $data['conclutions'];
+        $newProject->save();
+
+        return redirect()->route('projects.show', $newProject);
 
     }
 
