@@ -3,21 +3,30 @@
 @section('title', $project->author)
 
 @section('content')
+    <div class="d-flex m-3 gap-3">
+        <a href="{{route('projects.edit', $project)}}" class="btn btn-info">Edit</a>
 
-<div class="d-flex m-3 gap-3">
-    <a href="{{route('projects.edit', $project)}}" class="btn btn-info">Edit</a>
+        <!--  -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Elimina
+        </button>
+    </div>
 
-    <!--  -->
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Elimina
-    </button>
-</div>
+    <h5>{{$project->type->name}}</h5>
 
-<h5>{{$project->type->name}}</h5>
+    @if(count($project->technologies)> 0 )
+    <p>
+        tecnologie usate:
+        @foreach($project->technologies as $technology)
+            <span class="badge" style="background-color: {{$technology->color}}">{{$technology->name}}</span>
+        @endforeach
+    </p>
+    @endif
 
-<h2>{{$project->cliente}}</h2>
 
-<p>{{$project->conclutions}}</p>
+    <h2>{{$project->cliente}}</h2>
+
+    <p>{{$project->conclutions}}</p>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

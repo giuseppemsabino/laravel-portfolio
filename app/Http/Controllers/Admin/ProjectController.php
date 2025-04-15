@@ -38,13 +38,19 @@ class ProjectController extends Controller
 
     //    dd($data);
         $newProject = new Project();
+
         $newProject->author = $data['author'];
         $newProject->cliente = $data['cliente'];
         $newProject->conclutions = $data['conclutions'];
         $newProject->type_id = $data['type_id'];
+
         $newProject->save();
 
-        $newProject->technologies()->attach($data['technologies']);
+        //controllo se hanno inserito le tech
+        if($request->has('technologies')){
+
+            $newProject->technologies()->attach($data['technologies']);
+        }
 
         return redirect()->route('projects.show', $newProject);
 
@@ -78,8 +84,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view('projects.edit', compact('project','types'));
+        return view('projects.edit', compact('project','types', 'technologies'));
     }
 
     /**
@@ -96,6 +103,17 @@ class ProjectController extends Controller
         $project->type_id = $data['type_id'];
 
         $project->update();
+
+        //verifico se sto ricevendo delle tech 
+        if($request->has('technologies')){
+
+            //sincroniziamo la tabella con le nuove tecnologie
+            $project->technologies()->sync($data['technologies']);
+        }else{
+            //se no e stano solo eliminando le tech del project faccio un detach che elimina i dati di quelli id che non ci sono pi 
+            $project->technologies()->detach();
+        }
+
         // dd($project);
         return redirect()->route('projects.show', compact('project'));
     }

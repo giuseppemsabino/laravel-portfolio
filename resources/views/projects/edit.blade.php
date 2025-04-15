@@ -7,14 +7,17 @@
 <form action="{{route('projects.update', $project)}}" method="POST">
     @csrf
     @method('PUT')
+
     <div class="form-control m-3 d-flex flex-column">
         <label for="author">Autore</label>
         <input type="text" name="author" id="author" value="{{$project->author}}">
     </div>
+
     <div class="form-control m-3 d-flex flex-column">
         <label for="cliente">Cliente</label>
         <input type="text" name="cliente" id="cliente" value="{{$project->cliente}}">
     </div>
+
     <div class="form-control m-3 d-flex flex-column">
         <label for="type_id">Tipo di progetto</label>
         <select name="type_id" id="type_id">
@@ -23,6 +26,14 @@
             @endforeach
         </select>
     </div>
+
+    <div class="form-control mb-3 d-flex flex-wrap gap-2">
+        @foreach($technologies as $technology)
+        <input type="checkbox" name="technologies[]" value="{{$technology->id}}" id="technology-{{$technology->id}}" {{$project->technologies->contains($technology->id) ? 'checked': ''}}>
+        <label for="technology-{{$technology->id}}">{{$technology->name}}</label>
+        @endforeach
+    </div>
+
     <div class="form-control m-3 d-flex flex-column">
         <label for="conclutions">Conclusione</label>
         <textarea name="conclutions" id="conclutions">{{$project->conclutions}}</textarea>
