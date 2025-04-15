@@ -13,6 +13,8 @@
     </button>
 </div>
 
+<h5>{{$project->type->name}}</h5>
+
 <h2>{{$project->cliente}}</h2>
 
 <p>{{$project->conclutions}}</p>

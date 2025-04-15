@@ -20,6 +20,7 @@ class ProjectsTableSeeder extends Seeder
            $newProject = new Project();
            
             $newProject->author = $faker->name();
+            $newProject->type_id = rand(1, 5);
             $newProject->cliente = $faker->company();
             $newProject->conclutions = $faker->paragraphs(3, true);
 

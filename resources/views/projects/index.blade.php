@@ -5,6 +5,7 @@
 @section('content')
 
 
+    <a href="{{route('projects.create')}}" class="btn btn-primary"> Aggiungi un proggeto</a>
 
     <table>
         <thead>
