@@ -5,7 +5,7 @@
 @section('content')
 
 
-    <form action="{{route('projects.store')}}" method="POST">
+    <form action="{{route('projects.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-control m-3 d-flex flex-column">
             <label for="author">Autore</label>
@@ -28,6 +28,10 @@
             <input type="checkbox" name="technologies[]" value="{{$technology->id}}" id="technology-{{$technology->id}}">
             <label for="technology-{{$technology->id}}">{{$technology->name}}</label>
             @endforeach
+        </div>
+        <div class="form-control m-3 d-flex flex-column gap-2">
+            <label for="file">File</label>
+            <input type="file" name="file" id="file">
         </div>
         <div class="form-control m-3 d-flex flex-column">
             <label for="conclutions">Conclusione</label>

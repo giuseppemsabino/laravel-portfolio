@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -36,14 +37,23 @@ class ProjectController extends Controller
     {
        $data = $request->all();
 
-    //    dd($data);
-        $newProject = new Project();
+       $newProject = new Project();
+       
+       $newProject->author = $data['author'];
+       $newProject->cliente = $data['cliente'];
+       $newProject->conclutions = $data['conclutions'];
+       $newProject->type_id = $data['type_id'];
+       
+        //controllo se il file c'è
+       if(array_key_exists('file',$data)){
+        $file_url = Storage::putFile("projects", $data['file']) ;
 
-        $newProject->author = $data['author'];
-        $newProject->cliente = $data['cliente'];
-        $newProject->conclutions = $data['conclutions'];
-        $newProject->type_id = $data['type_id'];
+        $newProject->file = $file_url;
+       }
 
+
+
+     //  dd($data);
         $newProject->save();
 
         //controllo se hanno inserito le tech
@@ -102,6 +112,17 @@ class ProjectController extends Controller
         $project->conclutions = $data['conclutions'];
         $project->type_id = $data['type_id'];
 
+         // dd($data);
+        if(array_key_exists('file', $data)){
+            // eliminare il file precedente 
+            Storage::delete($project->file);
+
+            //caricare il nuovo
+            $file_url = Storage::putFile("projects", $data['file']) ;
+
+            //agiornare il db 
+            $project->file = $file_url;
+        }
         $project->update();
 
         //verifico se sto ricevendo delle tech 
@@ -123,6 +144,15 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+
+        //se c'è un file 
+        if($project->file){
+            Storage::delete($project->file);
+        }
+
+
+
+
         $project->delete();
 
         return redirect()->route('projects.index');

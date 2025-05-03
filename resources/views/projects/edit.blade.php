@@ -4,7 +4,7 @@
 
 @section('content')
 
-<form action="{{route('projects.update', $project)}}" method="POST">
+<form action="{{route('projects.update', $project)}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -32,6 +32,16 @@
         <input type="checkbox" name="technologies[]" value="{{$technology->id}}" id="technology-{{$technology->id}}" {{$project->technologies->contains($technology->id) ? 'checked': ''}}>
         <label for="technology-{{$technology->id}}">{{$technology->name}}</label>
         @endforeach
+    </div>
+
+    <div class="form-control m-3 d-flex flex-column gap-2">
+        <label for="file">File</label>
+        <input type="file" name="file" id="file">
+        @if($project->file)
+    <div id="project-file">
+    <img class="img-fluid w-25" src="{{ asset('storage/'.$project->file) }}" alt="file">
+    </div>
+    @endif
     </div>
 
     <div class="form-control m-3 d-flex flex-column">

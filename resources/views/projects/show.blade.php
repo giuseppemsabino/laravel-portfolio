@@ -3,6 +3,13 @@
 @section('title', $project->author)
 
 @section('content')
+
+    @if($project->file)
+    <div id="project-file">
+    <img class="img-fluid w-25" src="{{ asset('storage/'.$project->file) }}" alt="file">
+    </div>
+    @endif
+
     <div class="d-flex m-3 gap-3">
         <a href="{{route('projects.edit', $project)}}" class="btn btn-info">Edit</a>
 
@@ -18,7 +25,7 @@
     <p>
         tecnologie usate:
         @foreach($project->technologies as $technology)
-            <span class="badge" style="background-color: {{$technology->color}}">{{$technology->name}}</span>
+            <span class="badge">{{$technology->name}}</span>
         @endforeach
     </p>
     @endif
